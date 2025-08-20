@@ -41,7 +41,7 @@ void bfs(int si, int sj) {
             int ci = par_i + d[i].first;
             int cj = par_j + d[i].second;
 
-            if(isValid(ci, cj) && !vis[ci][cj]){
+            if(isValid(ci, cj) && !vis[ci][cj] && grid[ci][cj] == '.'){
                 vis[ci][cj] = true;
                 level[ci][cj] = level[par_i][par_j] + 1;
                 q.push({ci, cj});
