@@ -24,7 +24,7 @@ void dfs(int si, int sj) {
         ci = si + d[i].first;
         cj = sj + d[i].second;
 
-       if(isValid(ci, cj) && !vis[ci][cj]) 
+       if(isValid(ci, cj) && !vis[ci][cj] && grid[ci][cj] == '.') 
             dfs(ci, cj);
     }
 
