@@ -12,14 +12,53 @@ class Edge {
         }
 };
 
+int n, e;
+
 int dis[1005];
+vector<Edge> edgeList;
+
+void bellmanFord() {
+    for(int i = 0; i < n - 1; i++) {
+        for(auto ed : edgeList) {
+            int a, b, c;
+            a = ed.a;
+            b = ed.b;
+            c = ed.c;
+
+            if(dis[a] != INT_MAX && dis[a] + c < dis[b]) {
+                dis[b] = dis[a] + c;
+            }
+        }
+    }
+
+    bool isCycle = false;
+
+    for(auto ed : edgeList) {
+            int a, b, c;
+            a = ed.a;
+            b = ed.b;
+            c = ed.c;
+
+            if(dis[a] != INT_MAX && dis[a] + c < dis[b]) {
+                isCycle = true;
+            }
+        }
+
+    if(isCycle) {
+        cout << "Negative weighted cycle detected!" << endl;
+    }else {
+        for(int i = 0; i < n; i++) {
+        cout << i << "---> " << dis[i] << endl;
+    }
+    }
+}
+
 
 int main () {
-    int n, e;
+    
 
     cin >> n >> e;
 
-    vector<Edge> edgeList;
 
     while(e--) {
         int a, b, c;
@@ -34,22 +73,7 @@ int main () {
 
     dis[0] = 0;
 
-    for(int i = 0; i < n - 1; i++) {
-        for(auto ed : edgeList) {
-            int a, b, c;
-            a = ed.a;
-            b = ed.b;
-            c = ed.c;
-
-            if(dis[a] != INT_MAX && dis[a] + c < dis[b]) {
-                dis[b] = dis[a] + c;
-            }
-        }
-    }
-
-    for(int i = 0; i < n; i++) {
-        cout << i << "---> " << dis[i] << endl;
-    }
+    bellmanFord();
     
     return 0;
 }
