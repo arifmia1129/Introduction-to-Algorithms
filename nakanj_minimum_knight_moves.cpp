@@ -1,10 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int n = 8, m = 8;
-char grid[8][8];
-bool vis[8][8];
-int level[8][8];
+int n, m;
+char grid[105][105];
+bool vis[105][105];
+int level[105][105];
 
 vector<pair<int,int>> directions = {{2, -1}, {1, -2}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
 
@@ -45,12 +45,9 @@ int main () {
     int t; cin >> t;
 
     while(t--) {
-        string src, des; cin >> src >> des;
+    cin >> n >> m;
 
-    int si = src[1] - '1';
-    int sj = src[0] - 'a';
-    int di = des[1] - '1';
-    int dj = des[0] - 'a';
+    int si, sj, di, dj; cin >> si >> sj >> di >> dj;
 
     memset(vis, false, sizeof(vis));
     memset(level, -1, sizeof(level));
