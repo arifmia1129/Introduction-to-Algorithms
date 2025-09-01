@@ -1,4 +1,1 @@
-0 3 5 8 
-INT 0 2 5 
-INT INT 0 4 
-INT INT INT 0 
+Negative weighted cycle detected
