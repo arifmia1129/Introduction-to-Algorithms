@@ -1,1 +1,1 @@
-Negative weighted cycle detected
+-4
