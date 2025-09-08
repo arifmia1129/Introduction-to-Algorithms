@@ -2,7 +2,7 @@
 using namespace std;
 
 int main () {
-   long long int n, e, q; cin >> n >> e >> q;
+   long long int n, e, q; cin >> n >> e;
 
    long long int adjMat[n + 5][n + 5];
 
@@ -20,7 +20,6 @@ int main () {
         long long a, b, c; cin >> a >> b >> c;
 
         adjMat[a][b] = min(adjMat[a][b], c);
-        adjMat[b][a] = min(adjMat[b][a], c);
     }
 
     for(int k = 1; k <= n; k++) {
@@ -32,6 +31,8 @@ int main () {
             }
         }
     }    
+
+    cin >> q;
 
     while(q--) {
         int s, d; cin >> s >> d;
