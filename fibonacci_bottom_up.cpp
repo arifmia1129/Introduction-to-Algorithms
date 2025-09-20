@@ -2,18 +2,20 @@
 using namespace std;
 
 int main () {
-    int n; cin >> n;
+    long long int n; cin >> n;
 
-    int fib[n + 1];
+    long long int tet[n + 1];
 
-    fib[0] = 0;
-    fib[1] = 1;
+    tet[0] = 0;
+    tet[1] = 1;
+    tet[2] = 1;
+    tet[3] = 2;
 
-    for(int i = 2; i <= n; i++) {
-        fib[i] = fib[i - 1] + fib[i - 2];
+    for(long long int i = 4; i <= n; i++) {
+        tet[i] = tet[i - 1] + tet[i - 2] + tet[i - 3] + tet[i - 4];
     }
 
-    cout << fib[n] << endl;
+    cout << tet[n] << endl;
 
     return 0;
 }

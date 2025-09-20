@@ -1,16 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long int
 
-ll dp[1005];
+int dp[35];
 
-ll fib(int n) {
-    if(n < 2) return n;
-
+int tet(int n) {
     if(dp[n] != -1) return dp[n];
 
-    dp[n] = fib(n - 1) + fib(n - 2);
+    dp[n] = tet(n - 1) + tet(n - 2) + tet(n - 3) + tet(n - 4);
 
     return dp[n];
 }
@@ -21,8 +18,13 @@ int main () {
 
     memset(dp, -1, sizeof(dp));
 
+    dp[0] = 0;
+    dp[1] = 1;
+    dp[2] = 1;
+    dp[3] = 2;
 
-    cout << fib(n) << endl;
+
+    cout << tet(n) << endl;
 
 
     return 0;
