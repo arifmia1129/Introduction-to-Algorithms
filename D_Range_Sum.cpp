@@ -4,16 +4,17 @@ using namespace std;
 #define ll long long int
 
 int main () {
-    int tc; cin >> tc;
+    int t; cin >> t;
 
-    while(tc--) {
+    while(t--) {
         ll x, y; cin >> x >> y;
 
-        ll l = min(x, y);
-        ll r = max(x, y);
+        ll leftVal = min(x, y) - 1;
+        ll rightVal = max(x, y);
 
-        ll leftSum = ((l - 1) * l) / 2;
-        ll rightSum = (r * (r + 1)) / 2;
+
+        ll leftSum = (leftVal * (leftVal + 1)) / 2;
+        ll rightSum = (rightVal * (rightVal + 1)) / 2;
 
         cout << rightSum - leftSum << endl;
     }

@@ -12,25 +12,25 @@ int main () {
     for(int i = 1; i <= n; i++) {
         cin >> v[i];
 
-        if(i > 1) {
-            sum[i] = sum[i - 1] + v[i];
-        }else {
+        if(i == 1) {
             sum[i] = v[i];
+        }else{
+            sum[i] = sum[i - 1] + v[i];
         }
     }
+
+    ll ans = 0;
 
     while(q--) {
         int l, r; cin >> l >> r;
 
-        ll total;
-
-        if(l == 1) {
-            total = sum[r];
-        }else{
-            total = sum[r] - sum[l - 1];
+        if(l == 1)
+            ans = sum[r];
+        else{
+            ans = sum[r] - sum[l - 1];
         }
 
-        cout << total << endl;
+        cout << ans << endl;
     }
 
     return 0;
