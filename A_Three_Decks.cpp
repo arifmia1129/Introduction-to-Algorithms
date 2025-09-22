@@ -2,19 +2,17 @@
 using namespace std;
 
 int main () {
-    int n; cin >> n;
+    int t; cin >> t;
 
-    while(n--) {
+    while(t--) {
         int a, b, c; cin >> a >> b >> c;
 
-        int total = a + b + c;
-        int avg = total / 3;
+        int tl = a + b + c;
 
-        if(total % 3 == 0 && b <= avg) {
+        if(tl % 3 == 0 && b <= tl/3)
             cout << "YES" << endl;
-        }else {
+        else
             cout << "NO" << endl;
-        }
     }
 
     return 0;

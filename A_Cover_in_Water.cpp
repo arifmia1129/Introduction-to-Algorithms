@@ -7,26 +7,26 @@ int main () {
     while(t--) {
         int n; cin >> n;
 
-        string s;
+        string s; cin >> s;
 
-        cin >> s;
-
-
-        int consecutive = 0;
-        int empty = 0;
+        int consecutiveCount = 0;
+        int emptyCount = 0;
 
         for(char c : s) {
-            if(c == '.'){
-                consecutive++;
-                empty++;
-                if(consecutive == 3) break;
+            if(c == '.') {
+                consecutiveCount++;
+                emptyCount++;
+
+                if(consecutiveCount == 3) break;
             }else{
-                consecutive = 0;
+                consecutiveCount = 0;
             }
         }
 
-        if(consecutive == 3) cout << 2 << endl;
-        else cout << empty << endl;
+        if(consecutiveCount == 3)
+            cout << 2 << endl;
+        else    
+            cout << emptyCount << endl;
     }
 
     return 0;

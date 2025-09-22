@@ -7,21 +7,20 @@ int main () {
     while(t--) {
         string s; cin >> s;
 
-        int i;
+        int i; 
 
         for(i = 1; i < s.size(); i++) {
-            if(s[i] == s[i - 1])
+            if(s[i - 1] == s[i])
                 break;
         }
 
         if(s[i - 1] == 'a')
             s.insert(s.begin() + i, 'b');
-        else    
+        else   
             s.insert(s.begin() + i, 'a');
-
 
         cout << s << endl;
     }
-    
+
     return 0;
 }

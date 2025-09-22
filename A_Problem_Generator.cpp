@@ -8,19 +8,16 @@ int main () {
         int n, m; cin >> n >> m;
 
         string s; cin >> s;
-
+        
         int freAr[7] = {0};
 
-        for(char c : s) {
-            freAr[c - 'A']++;
-        }
+        for(char ch : s) 
+            freAr[ch - 'A']++;
 
         int cnt = 0;
 
-        for(int v : freAr) {
-            if(v < m)
-                cnt += m - v;
-        }
+        for(int v : freAr) 
+            if(v < m) cnt += m - v;
 
         cout << cnt << endl;
     }

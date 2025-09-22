@@ -7,34 +7,35 @@ int main () {
     while(t--) {
         int n; cin >> n;
 
-        int ar[n + 1];
+        int a[n];
 
-        for(int i = 0; i < n; i++)
-            cin >> ar[i];
+        for(int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
 
-        sort(ar, ar + n);
+        sort(a, a+n);
 
-        int mn = ar[0];
-        int mx = ar[n - 1];
+        int mn = a[0];
+        int mx = a[n - 1];
 
-        int i = 0, j = n - 1, cnt1 = 0, cnt2 = 0;
+        if(mn % 2 == mx % 2) cout << 0 << endl;
+        else {
+            int i = 0; int cnt1 = 0;
 
-        if(mx % 2 == mn % 2) {
-            cout << 0 << endl;
-        }else {
-            while(ar[i] % 2 != mx % 2){
+            while(a[i] % 2 != mx % 2) {
                 i++;
                 cnt1++;
             }
 
-            while(ar[j] % 2 != mn % 2) {
+            int j = n - 1; int cnt2 = 0;
+
+            while(a[j] % 2 != mn % 2) {
                 j--;
                 cnt2++;
             }
 
             cout << min(cnt1, cnt2) << endl;
         }
-
     }
 
     return 0;

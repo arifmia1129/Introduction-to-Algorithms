@@ -11,22 +11,19 @@ int main () {
 
         int cnt = 0;
 
-        for(char ch : s) {
+        for(char ch : s)
             if(ch == '1')
                 cnt++;
-        }
 
+        int ans = 0;
 
-        int sum = 0;
-
-        for(int i = 0; i < n; i++) {
-            if(s[i] == '0')
-               sum += cnt + 1;
+        for(char ch : s) 
+            if(ch == '0')
+                ans += cnt + 1;
             else    
-                sum += cnt - 1;
-        }
-
-        cout << sum << endl;;
+                ans += cnt - 1;
+        cout << ans << endl;
     }
+
     return 0;
 }
