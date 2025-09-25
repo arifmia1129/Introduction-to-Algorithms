@@ -1289,3 +1289,473 @@ void print_vector(vector<int>& v) {
 - Uninitialized variables
 - Memory leaks with dynamic allocation
 - Wrong base cases in recursion
+
+---
+
+## 23. Union Find (Disjoint Set Union)
+*Efficiently track connected components and cycle detection*
+
+### Basic Implementation
+```cpp
+class DSU {
+public:
+    vector<int> parent, rank;
+    
+    DSU(int n) {
+        parent.resize(n);
+        rank.resize(n, 0);
+        for(int i = 0; i < n; i++) {
+            parent[i] = i;  // Initially each node is its own parent
+        }
+    }
+    
+    // Find with path compression - O(α(n)) ≈ O(1)
+    int find(int x) {
+        if(parent[x] != x) {
+            parent[x] = find(parent[x]);  // Path compression
+        }
+        return parent[x];
+    }
+    
+    // Union by rank - O(α(n)) ≈ O(1)
+    void unite(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+        
+        if(px == py) return;  // Already in same component
+        
+        if(rank[px] < rank[py]) {
+            parent[px] = py;
+        } else if(rank[px] > rank[py]) {
+            parent[py] = px;
+        } else {
+            parent[py] = px;
+            rank[px]++;
+        }
+    }
+    
+    bool same_component(int x, int y) {
+        return find(x) == find(y);
+    }
+};
+```
+
+### Applications
+```cpp
+// Cycle detection in undirected graph
+bool has_cycle_dsu(vector<pair<int, int>>& edges, int n) {
+    DSU dsu(n);
+    for(auto [u, v] : edges) {
+        if(dsu.same_component(u, v)) return true;  // Cycle found
+        dsu.unite(u, v);
+    }
+    return false;
+}
+
+// Count connected components
+int count_components_dsu(vector<pair<int, int>>& edges, int n) {
+    DSU dsu(n);
+    for(auto [u, v] : edges) {
+        dsu.unite(u, v);
+    }
+    
+    set<int> components;
+    for(int i = 0; i < n; i++) {
+        components.insert(dsu.find(i));
+    }
+    return components.size();
+}
+```
+
+---
+
+## 24. Bit Manipulation
+*Working with individual bits for optimization*
+
+### Basic Operations
+```cpp
+// Check if bit at position i is set
+bool is_set(int n, int i) {
+    return (n & (1 << i)) != 0;
+}
+
+// Set bit at position i
+int set_bit(int n, int i) {
+    return n | (1 << i);
+}
+
+// Clear bit at position i
+int clear_bit(int n, int i) {
+    return n & (~(1 << i));
+}
+
+// Toggle bit at position i
+int toggle_bit(int n, int i) {
+    return n ^ (1 << i);
+}
+
+// Count set bits (popcount)
+int count_set_bits(int n) {
+    return __builtin_popcount(n);
+}
+
+// Check if number is power of 2
+bool is_power_of_2(int n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+```
+
+### Useful Bit Tricks
+```cpp
+// Get rightmost set bit
+int rightmost_set_bit(int n) {
+    return n & (-n);
+}
+
+// Turn off rightmost set bit
+int turn_off_rightmost(int n) {
+    return n & (n - 1);
+}
+
+// Swap two numbers without temp variable
+void swap_bits(int& a, int& b) {
+    a ^= b;
+    b ^= a;
+    a ^= b;
+}
+
+// Find single number in array where all others appear twice
+int find_single(vector<int>& arr) {
+    int result = 0;
+    for(int x : arr) {
+        result ^= x;  // XOR cancels out duplicates
+    }
+    return result;
+}
+```
+
+---
+
+## 25. Mathematical Algorithms
+*Common mathematical computations*
+
+### GCD and LCM
+```cpp
+// Greatest Common Divisor - O(log min(a,b))
+int gcd(int a, int b) {
+    if(b == 0) return a;
+    return gcd(b, a % b);
+}
+
+// Using built-in
+int gcd_builtin(int a, int b) {
+    return __gcd(a, b);
+}
+
+// Least Common Multiple
+long long lcm(int a, int b) {
+    return (1LL * a * b) / gcd(a, b);
+}
+```
+
+### Prime Numbers
+```cpp
+// Check if number is prime - O(√n)
+bool is_prime(int n) {
+    if(n <= 1) return false;
+    if(n <= 3) return true;
+    if(n % 2 == 0 || n % 3 == 0) return false;
+    
+    for(int i = 5; i * i <= n; i += 6) {
+        if(n % i == 0 || n % (i + 2) == 0) return false;
+    }
+    return true;
+}
+
+// Sieve of Eratosthenes - Find all primes up to n
+vector<bool> sieve(int n) {
+    vector<bool> is_prime(n + 1, true);
+    is_prime[0] = is_prime[1] = false;
+    
+    for(int i = 2; i * i <= n; i++) {
+        if(is_prime[i]) {
+            for(int j = i * i; j <= n; j += i) {
+                is_prime[j] = false;
+            }
+        }
+    }
+    return is_prime;
+}
+```
+
+### Modular Arithmetic
+```cpp
+const int MOD = 1e9 + 7;
+
+// Modular addition
+long long add_mod(long long a, long long b) {
+    return ((a % MOD) + (b % MOD)) % MOD;
+}
+
+// Modular multiplication
+long long mul_mod(long long a, long long b) {
+    return ((a % MOD) * (b % MOD)) % MOD;
+}
+
+// Modular exponentiation - O(log b)
+long long power_mod(long long a, long long b) {
+    long long result = 1;
+    a %= MOD;
+    while(b > 0) {
+        if(b & 1) result = mul_mod(result, a);
+        a = mul_mod(a, a);
+        b >>= 1;
+    }
+    return result;
+}
+```
+
+---
+
+## 26. Backtracking
+*Explore all possible solutions systematically*
+
+### N-Queens Problem
+```cpp
+bool is_safe(vector<string>& board, int row, int col, int n) {
+    // Check column
+    for(int i = 0; i < row; i++) {
+        if(board[i][col] == 'Q') return false;
+    }
+    
+    // Check upper left diagonal
+    for(int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+        if(board[i][j] == 'Q') return false;
+    }
+    
+    // Check upper right diagonal
+    for(int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+        if(board[i][j] == 'Q') return false;
+    }
+    
+    return true;
+}
+
+void solve_n_queens(vector<string>& board, int row, int n, vector<vector<string>>& solutions) {
+    if(row == n) {
+        solutions.push_back(board);
+        return;
+    }
+    
+    for(int col = 0; col < n; col++) {
+        if(is_safe(board, row, col, n)) {
+            board[row][col] = 'Q';
+            solve_n_queens(board, row + 1, n, solutions);
+            board[row][col] = '.';  // Backtrack
+        }
+    }
+}
+```
+
+### Generate All Subsets
+```cpp
+void generate_subsets(vector<int>& arr, int idx, vector<int>& current, vector<vector<int>>& result) {
+    if(idx == arr.size()) {
+        result.push_back(current);
+        return;
+    }
+    
+    // Don't include current element
+    generate_subsets(arr, idx + 1, current, result);
+    
+    // Include current element
+    current.push_back(arr[idx]);
+    generate_subsets(arr, idx + 1, current, result);
+    current.pop_back();  // Backtrack
+}
+```
+
+---
+
+## 27. Greedy Algorithms
+*Make locally optimal choices*
+
+### Activity Selection
+```cpp
+// Select maximum number of non-overlapping activities
+int activity_selection(vector<pair<int, int>>& activities) {
+    sort(activities.begin(), activities.end(), [](pair<int, int> a, pair<int, int> b) {
+        return a.second < b.second;  // Sort by end time
+    });
+    
+    int count = 1;
+    int last_end = activities[0].second;
+    
+    for(int i = 1; i < activities.size(); i++) {
+        if(activities[i].first >= last_end) {
+            count++;
+            last_end = activities[i].second;
+        }
+    }
+    return count;
+}
+```
+
+### Fractional Knapsack
+```cpp
+struct Item {
+    int value, weight;
+    double ratio;
+};
+
+bool compare(Item a, Item b) {
+    return a.ratio > b.ratio;  // Sort by value/weight ratio
+}
+
+double fractional_knapsack(vector<Item>& items, int capacity) {
+    for(auto& item : items) {
+        item.ratio = (double)item.value / item.weight;
+    }
+    sort(items.begin(), items.end(), compare);
+    
+    double total_value = 0;
+    for(auto& item : items) {
+        if(capacity >= item.weight) {
+            capacity -= item.weight;
+            total_value += item.value;
+        } else {
+            total_value += item.ratio * capacity;
+            break;
+        }
+    }
+    return total_value;
+}
+```
+
+---
+
+## 28. Contest Strategy & Tips
+*Winning approaches for competitive programming*
+
+### Time Management
+```cpp
+// Quick problem difficulty estimation:
+// Easy (5-10 min): Implementation, basic math, simple simulation
+// Medium (15-30 min): DP, graphs, data structures
+// Hard (45+ min): Advanced algorithms, complex implementation
+
+// Contest strategy:
+// 1. Read all problems first (5-10 min)
+// 2. Solve in order of difficulty, not problem order
+// 3. If stuck for 20+ min, move to next problem
+// 4. Always submit brute force if you have partial solution
+```
+
+### Input/Output Patterns
+```cpp
+// Multiple test cases
+int t; cin >> t;
+while(t--) {
+    // Solve each test case
+}
+
+// Array input
+int n; cin >> n;
+vector<int> arr(n);
+for(int i = 0; i < n; i++) {
+    cin >> arr[i];
+}
+
+// 2D array/matrix input
+int n, m; cin >> n >> m;
+vector<vector<int>> grid(n, vector<int>(m));
+for(int i = 0; i < n; i++) {
+    for(int j = 0; j < m; j++) {
+        cin >> grid[i][j];
+    }
+}
+
+// String processing
+string s; cin >> s;
+// or for line with spaces:
+getline(cin, s);
+```
+
+### Debugging Tips
+```cpp
+// Assert for debugging (only works in debug mode)
+assert(condition);  // Program stops if condition is false
+
+// Print debugging info
+#ifdef LOCAL
+    for(int x : arr) cerr << x << " ";
+    cerr << endl;
+#endif
+
+// Check array bounds
+if(i < 0 || i >= n) {
+    cout << "Index out of bounds!" << endl;
+    return;
+}
+```
+
+---
+
+## 29. Problem Categories Quick Reference
+*Common problem types and their approaches*
+
+### Array Problems
+- **Two Sum/Pair Sum**: Hash map or two pointers
+- **Subarray Problems**: Prefix sum, sliding window, Kadane's
+- **Sorting/Searching**: Built-in sort, binary search
+- **Rotation**: Reverse technique or cyclic approach
+
+### String Problems  
+- **Palindrome**: Two pointers, expand around center
+- **Anagram**: Frequency counting, sorting
+- **Pattern Matching**: KMP, built-in find()
+- **Subsequence**: DP, greedy approach
+
+### Tree Problems
+- **Traversal**: DFS (recursive), BFS (queue)
+- **Height/Depth**: Recursive with max()
+- **Path Sum**: DFS with target tracking
+- **LCA**: Binary lifting, parent tracking
+
+### Graph Problems
+- **Shortest Path**: BFS (unweighted), Dijkstra (weighted)
+- **Connected Components**: DFS/BFS, Union Find
+- **Cycle Detection**: DFS (back edges), Union Find
+- **Topological Sort**: DFS, Kahn's algorithm
+
+### DP Problems
+- **Linear DP**: Fibonacci-like, LIS, LCS
+- **2D DP**: Grid paths, knapsack variants  
+- **Tree DP**: Max path sum, diameter
+- **State Space**: Bitmask DP, digit DP
+
+---
+
+## Final Exam/Contest Checklist ✓
+
+### Before Contest:
+- [ ] Template ready with fast I/O
+- [ ] Know STL containers and their time complexities
+- [ ] Practice common algorithms (sorting, searching, graph)
+- [ ] Understand when to use which data structure
+
+### During Contest:
+- [ ] Read all problems first
+- [ ] Start with easiest problems
+- [ ] Handle edge cases (empty input, single element)
+- [ ] Use long long for large numbers
+- [ ] Test with sample inputs
+- [ ] Submit partial solutions if stuck
+
+### Common Edge Cases:
+- Empty arrays/strings (n = 0)
+- Single element (n = 1)  
+- All elements same
+- Negative numbers
+- Integer overflow
+- Graph disconnected/has cycles
